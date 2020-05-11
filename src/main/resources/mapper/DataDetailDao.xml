@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.honyelchak.easypoi.dao.DataDetailDao">
+
+    <resultMap type="com.honyelchak.easypoi.entity.DataDetail" id="DataDetailMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="titleCn" column="title_CN" jdbcType="VARCHAR"/>
+        <result property="titleEn" column="title_EN" jdbcType="VARCHAR"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="organization" column="organization" jdbcType="VARCHAR"/>
+        <result property="textCn" column="text_CN" jdbcType="VARCHAR"/>
+        <result property="textEn" column="text_EN" jdbcType="VARCHAR"/>
+        <result property="keywordCn" column="keyWord_CN" jdbcType="VARCHAR"/>
+        <result property="keywordEn" column="keyWord_EN" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DataDetailMap">
+        select
+          id, title_CN, title_EN, author, organization, text_CN, text_EN, keyWord_CN, keyWord_EN
+        from paper.data_detail
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DataDetailMap">
+        select
+          id, title_CN, title_EN, author, organization, text_CN, text_EN, keyWord_CN, keyWord_EN
+        from paper.data_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DataDetailMap">
+        select
+          id, title_CN, title_EN, author, organization, text_CN, text_EN, keyWord_CN, keyWord_EN
+        from paper.data_detail
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="titleCn != null and titleCn != ''">
+                and title_CN = #{titleCn}
+            </if>
+            <if test="titleEn != null and titleEn != ''">
+                and title_EN = #{titleEn}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="organization != null and organization != ''">
+                and organization = #{organization}
+            </if>
+            <if test="textCn != null and textCn != ''">
+                and text_CN = #{textCn}
+            </if>
+            <if test="textEn != null and textEn != ''">
+                and text_EN = #{textEn}
+            </if>
+            <if test="keywordCn != null and keywordCn != ''">
+                and keyWord_CN = #{keywordCn}
+            </if>
+            <if test="keywordEn != null and keywordEn != ''">
+                and keyWord_EN = #{keywordEn}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into paper.data_detail(title_CN, title_EN, author, organization, text_CN, text_EN, keyWord_CN, keyWord_EN)
+        values (#{titleCn}, #{titleEn}, #{author}, #{organization}, #{textCn}, #{textEn}, #{keywordCn}, #{keywordEn})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update paper.data_detail
+        <set>
+            <if test="titleCn != null and titleCn != ''">
+                title_CN = #{titleCn},
+            </if>
+            <if test="titleEn != null and titleEn != ''">
+                title_EN = #{titleEn},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author},
+            </if>
+            <if test="organization != null and organization != ''">
+                organization = #{organization},
+            </if>
+            <if test="textCn != null and textCn != ''">
+                text_CN = #{textCn},
+            </if>
+            <if test="textEn != null and textEn != ''">
+                text_EN = #{textEn},
+            </if>
+            <if test="keywordCn != null and keywordCn != ''">
+                keyWord_CN = #{keywordCn},
+            </if>
+            <if test="keywordEn != null and keywordEn != ''">
+                keyWord_EN = #{keywordEn},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from paper.data_detail where id = #{id}
+    </delete>
+
+</mapper>
